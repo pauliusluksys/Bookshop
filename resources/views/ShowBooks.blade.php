@@ -6,6 +6,6 @@
     </x-slot>
 
     <div class="py-12">
-        ffdghdf
+        <button type="button" class="btn btn-primary">Primary</button>
     </div>
 </x-app-layout>

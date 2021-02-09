@@ -1,3 +1,26 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
+.container {
+  min-height: 500px;
+  border: solid 2px;
+  margin-bottom: 1em;
+  background: #b2d5ff;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  align-content: flex-start;
+}
+
+.item {
+  min-width: 15%;
+  background: #007ed3;
+  border: solid 2px #305077;
+  margin: 4px;
+  text-align: center;
+  font-size: 3em;
+  color: white;
+  font-weight: bold;
+  line-height: 2.4;
+}

@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+   <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -12,9 +12,23 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('user.home.index') }}" :active="request()->routeIs('user.home.index')">
+                            {{ __('All Books') }}
+                        </x-jet-nav-link>
+
+                   
+
+                    @if (auth()->user()->role_id == 2)
+                         <x-jet-nav-link href="{{ route('user.home.index') }}" :active="request()->routeIs('user.home.index')">
+                            {{ __('Add Book To Listing') }}
+                        </x-jet-nav-link>
+                    @endif
+
+                    @can('manage-courses')
+                        <x-jet-nav-link href="{{ route('teacher.courses.index') }}" :active="request()->routeIs('teacher.courses.index')">
+                            {{ __('Courses') }}
+                        </x-jet-nav-link>
+                    @endif
                 </div>
             </div>
 
