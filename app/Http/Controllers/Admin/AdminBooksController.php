@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Book;
-use Illuminate\Support\Facades\Auth;
-class UserBooksController extends Controller
+use App\Models\User;
+class AdminBooksController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +15,8 @@ class UserBooksController extends Controller
      */
     public function index()
     {
-        $books=Book::where('user_id', Auth::user()->id)->get();
-
-        return view('user.books.index',compact('books'));
+        $books=Book::get();
+        return view('admin.books.index',compact('books'));
     }
 
     /**
@@ -27,7 +26,7 @@ class UserBooksController extends Controller
      */
     public function create()
     {
-        return view('user.books.create');
+        return view('admin.books.create');
     }
 
     /**
@@ -54,7 +53,7 @@ class UserBooksController extends Controller
         $book->user_id = Auth::user()->id;
         $book->save();
 
-        return redirect()->route('user.books.index')->with('success','Book has been created successfully');
+        return redirect()->route('admin.books.index')->with('success','Book has been created successfully');
     }
     
 
@@ -68,7 +67,7 @@ class UserBooksController extends Controller
     {
         $book=Book::find($id);
         
-        return view('user.books.singleBook',compact('book'));
+        return view('admin.books.singleBook',compact('book'));
     }
 
     /**
@@ -81,7 +80,7 @@ class UserBooksController extends Controller
     {
         $book=Book::find($id);
 
-        return view('user.books.singleBookEdit',compact('book'));
+        return view('admin.books.singleBookEdit',compact('book'));
     }
 
     /**
@@ -105,7 +104,7 @@ class UserBooksController extends Controller
         $book->author_id = 1;
         $book->user_id = Auth::user()->id;
         $book->save();
-return redirect()->route('user.books.show',['book'=>$book->id])->with('success','Book has been updated successfully');
+return redirect()->route('admin.books.show',['book'=>$book->id])->with('success','Book has been updated successfully');
     }
 
     /**
@@ -118,6 +117,6 @@ return redirect()->route('user.books.show',['book'=>$book->id])->with('success',
     {
         $book = Book::find($id);
         $book->delete();
-        return redirect()->route('user.books.index')->with('success','Book has been deleted successfully');
+        return redirect()->route('admin.books.index')->with('success','Book has been deleted successfully');
     }
 }

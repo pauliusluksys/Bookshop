@@ -14,6 +14,16 @@ class Book extends Model
     protected $fillable = [
         'title',
         'description',
-        'confirmed',
+        
     ];
+
+
+    public function isConfirmeds()
+    {
+        return $this->hasOne(IsConfirmed::class);
+    }
+    public function user()
+    {
+         return $this->belongsTo(User::class);
+    }
 }

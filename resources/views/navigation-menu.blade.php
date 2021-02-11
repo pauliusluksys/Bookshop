@@ -19,8 +19,8 @@
                    
 
                     @if (auth()->user()->role_id == 2)
-                         <x-jet-nav-link href="{{ route('user.home.index') }}" :active="request()->routeIs('user.home.index')">
-                            {{ __('Add Book To Listing') }}
+                         <x-jet-nav-link href="{{ route('user.books.index') }}" :active="request()->routeIs('user.books.index')">
+                            {{ __('My Books') }}
                         </x-jet-nav-link>
                     @endif
 

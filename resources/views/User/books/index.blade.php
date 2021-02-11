@@ -1,6 +1,12 @@
 <x-app-layout>
 	here you can see your added to a list books
 
+
+@if ($message = Session::get('success'))
+<div class="alert alert-success"  role="alert">
+<p>{{ $message }}</p>
+</div>
+@endif
 <div class="container">
   <div class="row">
   	<div class="col-2">
@@ -10,22 +16,28 @@
       <table class="table table-primary table-striped">
   <thead>
     <tr>
-      <th scope="col"></th>
+      <th scope="col">Nr</th>
       <th scope="col">Title</th>
       <th scope="col">Author</th>
-      <th scope="col">confirmed</th>
-      <th scope="col">action</th>
+      <th scope="col">Confirmed</th>
+      <th scope="col">Full Information</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-      <td>edit, delete</td>
+  	@php
+    $i = 1;
+	@endphp
+  	@foreach($books as $book)
+
+     <tr>
+      <th scope="row">{{$i++}}</th>
+      <td>{{$book->title}}</td>
+      <td>{{$book->author_id}}</td>
+      <td>{{$book->confirmed}}</td>
+      <td><a href="{{url('user/books/' . $book->id)}}">-></a></td>
     </tr>
    </tbody>
+   @endforeach
 </table>
     </div>
     <div class="col-3">
