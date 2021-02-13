@@ -33,8 +33,9 @@
   <div class="row  py-12">
     <div class="col-3 d-flex">
       <div class="single-book-image border">
-        
+       <img src="{{$book->id}}" alt="" title=""/>
         <div>
+
           <form action="{{url('/admin/books/'.$book->isConfirmeds->id.'/status')}}" method="POST">
             @csrf
             

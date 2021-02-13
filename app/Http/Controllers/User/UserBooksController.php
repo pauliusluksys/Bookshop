@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use Illuminate\Support\Facades\Auth;
+use App\Models\IsConfirmed;
+use App\Models\Author;
+use App\Models\AuthorBook;
+use Illuminate\Support\Arr;
 class UserBooksController extends Controller
 {
     /**
@@ -16,7 +20,8 @@ class UserBooksController extends Controller
     public function index()
     {
         $books=Book::where('user_id', Auth::user()->id)->get();
-
+        
+        
         return view('user.books.index',compact('books'));
     }
 
@@ -42,17 +47,35 @@ class UserBooksController extends Controller
         'book_title' => 'required|max:191',
         'book_author' => 'required|max:191',
         'book_description' =>'required',
+        'book_author' =>'required|max:191',
         ]);
 
-
+         $author_ids=[];
+         $i=0;
+         foreach(explode(',',$request->book_author) as $book_author){
+                $author = Author::firstOrCreate(['name' => $book_author]);
+                Arr::set($author_ids, $i++, $author->id);
+         }
+        
+        
         $book = new Book;
 
         $book->title = $request->book_title;
         $book->description = $request->book_description;
-        $book->confirmed = 0;
-        $book->author_id = 1;
+        $book->price = 100;
         $book->user_id = Auth::user()->id;
+        $book->addMediaFromRequest('book_image')->toMediaCollection('books_images');
+
         $book->save();
+
+        $book->author()->attach($author_ids);
+         
+
+        $isConfirmed = new IsConfirmed;
+        $isConfirmed->is_confirmed_type_id=1;
+        $isConfirmed->book_id=$book->id;
+        $isConfirmed->save();
+        
 
         return redirect()->route('user.books.index')->with('success','Book has been created successfully');
     }
@@ -66,7 +89,9 @@ class UserBooksController extends Controller
      */
     public function show($id)
     {
+       
         $book=Book::find($id);
+        //dd($book->getFirstMediaUrl('books_images'));
         
         return view('user.books.singleBook',compact('book'));
     }

@@ -36,10 +36,14 @@
       1 of 3
     </div>
     <div class="col-8 d-flex">
-      <div class="single-book-image border">asdasdwads</div>
+      <div class="single-book-image border">
+      	@if($book->getMedia('books_images')->first())
+      	<img src="{{asset($book->getMedia('books_images')->first()->getUrl())}}" alt="Italian Trulli">
+      	@endif
+      </div>
       <div class="mx-12"> 
       	<div>
-      	  <h2><strong>Title:</strong> {{$book->title}}</h2> 
+      	  <h2><strong>Title: </strong> {{$book->title}}</h2> 
       	  <h6 class="text-muted"><strong>Author:</strong> {{$book->author_id}}</h6>
       	</div>
       	<div class="py-6">

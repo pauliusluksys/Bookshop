@@ -18,7 +18,21 @@
 
 
 }
-
+.book-information-container div{
+  width: 105px;
+}
 .single-book-image{
   height: 430px; width: 273px;
+}
+.book-new{
+  
+  position:absolute;
+  top:0;
+  left:0;
+}
+.book-discount{
+  
+  position:absolute;
+  top:0;
+  right:0; 
 }

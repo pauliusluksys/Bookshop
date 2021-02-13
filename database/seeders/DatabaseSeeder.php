@@ -45,7 +45,16 @@ class DatabaseSeeder extends Seeder
           //   $book->isConfirmed()->save($isConfirmed);
           //   });
 
-         $book=\App\Models\Book::factory()->has(\App\Models\IsConfirmed::factory()->count(1))->count(10)->create();
+         $book=\App\Models\Book::factory()->has(\App\Models\IsConfirmed::factory()->count(1))->count(51)->create();
+
+         $author=\App\Models\Author::factory()->count(20)->create();
+
+
+         foreach(Book::all() as $book){
+         	$author=\App\Models\Author::inRandomOrder()->take(1)->pluck('id');
+         	$book->author()->attach($author);
+         }
+
 
     }
 }

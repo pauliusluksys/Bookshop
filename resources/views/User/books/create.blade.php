@@ -15,7 +15,7 @@
 	        </ul>
 	    </div>
 	@endif
-      <form method="POST" action="{{route('user.books.store')}}">
+      <form method="POST" action="{{route('user.books.store')}}" enctype="multipart/form-data">
       	@csrf
 		  <div class="mb-3">
 		    <label for="book_title" class="form-label">Your book title:</label>
@@ -33,6 +33,10 @@
 		    <textarea class="form-control" id="book_description" rows="4" name="book_description"></textarea>
 		  </div>
 
+		  <div class="mb-3">
+		    <label for="book_image" class="form-label">Book image:</label>
+		    <input type="file" class="form-control" id="book_image" name="book_image">
+		  </div>
 		  <button type="submit" class="btn btn-primary">Submit</button>
 	  </form>
     </div>

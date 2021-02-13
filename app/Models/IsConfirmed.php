@@ -12,6 +12,7 @@ class IsConfirmed extends Model
         'name',
         'message',
         'book_id',
+        'is_confirmed_type_id',
     ];
 
     public function isConfirmedType()
