@@ -13,9 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('', [\App\Http\Controllers\BookController::class, 'index'])->name('home.index');
+Route::get('books/{id}', [\App\Http\Controllers\BookController::class, 'show'])->name('home.show');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
@@ -35,11 +34,13 @@ Route::group(['middleware' => 'auth'], function(){
 	});
 	Route::group(['middleware'=>'role:user','prefix'=>'user','as'=>'user.'],function(){
 		//Route::resource('',\App\Http\Controllers\User\UserHomeController::class);
-		Route::get('', [\App\Http\Controllers\User\UserHomeController::class, 'index'])->name('home.index');
+		
 
 		Route::resource('books',\App\Http\Controllers\User\UserBooksController::class);
 
 	});
+
+
 
 
 

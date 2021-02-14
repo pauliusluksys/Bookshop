@@ -12,14 +12,14 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-jet-nav-link href="{{ route('user.home.index') }}" :active="request()->routeIs('user.home.index')">
+                    <x-jet-nav-link href="{{ route('home.index') }}" :active="request()->routeIs('home.index')">
                             {{ __('All Books') }}
                         </x-jet-nav-link>
 
                    
 
                     @if (auth()->user()->role_id == 2)
-                         <x-jet-nav-link href="{{ route('user.books.index') }}" :active="request()->routeIs('user.books.index')">
+                         <x-jet-nav-link href="{{ route('user.books.index') }}" :active="request()->routeIs('books.index')">
                             {{ __('My Books') }}
                         </x-jet-nav-link>
                     @endif

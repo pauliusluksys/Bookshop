@@ -20,7 +20,7 @@ class Rating extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    public function product()
+    public function book()
     {
         return $this->belongsTo('App\Models\Book');
     }
