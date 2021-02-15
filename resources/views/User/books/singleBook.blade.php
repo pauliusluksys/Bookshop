@@ -33,7 +33,7 @@
      </div>
   <div class="row  py-12">
     <div class="col">
-      1 of 3
+      
     </div>
     <div class="col-8 d-flex">
       <div class="single-book-image border">
@@ -43,8 +43,32 @@
       </div>
       <div class="mx-12"> 
       	<div>
+      		<h6 class="text-muted"><strong>Last updated at:</strong> 
+      	  		{{$book->updated_at}} By Someone
+      	  </h6>
       	  <h2><strong>Title: </strong> {{$book->title}}</h2> 
-      	  <h6 class="text-muted"><strong>Author:</strong> {{$book->author_id}}</h6>
+      	  <h6 class="text-muted"><strong>Author:</strong> 
+      	  	@foreach($book->author as $author)
+      	  	{{$author->name}},
+      	  	@endforeach
+      	  </h6>
+
+      	  <h6 class="text-muted"><strong>Genre:</strong> 
+      	  	@foreach($book->genre as $genre)
+      	  	{{$genre->name}},
+      	  	@endforeach
+      	  </h6>
+      	  <div><strong>Price:</strong>
+      	  	
+      	 
+      	  
+      	  	@if($book->discount===null)
+      	  	{{$book->price}}€
+      	  	@else
+      	  	€{{round($book->price-$book->price*($book->discount/100),2)}} <div class="d-inline-block position-relative">
+      	  		<div class="position-absolute" style="bottom:1px; white-space: nowrap;"><p class="text-muted text-sm m-0 d-inline"><del>€{{$book->price}}</del></p><p class=" text-sm m-0 d-inline" style="white-space: nowrap;"> {{$book->discount}}% off</p></div></div>
+      	  	@endif
+      	  </div>
       	</div>
       	<div class="py-6">
       	  <p><strong>Description:</strong> {{$book->description}}</p>

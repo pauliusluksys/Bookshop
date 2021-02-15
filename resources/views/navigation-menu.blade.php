@@ -17,18 +17,32 @@
                         </x-jet-nav-link>
 
                    
-
+                    
                     @if (auth()->user()->role_id == 2)
                          <x-jet-nav-link href="{{ route('user.books.index') }}" :active="request()->routeIs('books.index')">
                             {{ __('My Books') }}
                         </x-jet-nav-link>
                     @endif
 
+                    @if (auth()->user()->role_id == 1)
+                         <x-jet-nav-link href="{{ route('admin.books.index') }}" :active="request()->routeIs('books.index')">
+                            {{ __('Manage Books') }}
+                        </x-jet-nav-link>
+                    
+
+                    
+                         <x-jet-nav-link href="{{ route('admin.users.index') }}" :active="request()->routeIs('books.index')">
+                            {{ __('Manage Users') }}
+                        </x-jet-nav-link>
+                    @endif
+
+
                     @can('manage-courses')
                         <x-jet-nav-link href="{{ route('teacher.courses.index') }}" :active="request()->routeIs('teacher.courses.index')">
                             {{ __('Courses') }}
                         </x-jet-nav-link>
                     @endif
+
                 </div>
             </div>
 

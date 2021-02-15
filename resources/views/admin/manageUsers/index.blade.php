@@ -1,7 +1,9 @@
 <x-app-layout>
-	here you can see your added to a list books
-
-
+  <x-slot name="header">
+    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+      You can manage Users here!
+    </h2>
+  </x-slot>
 @if ($message = Session::get('success'))
 <div class="alert alert-success"  role="alert">
 <p>{{ $message }}</p>
@@ -18,39 +20,33 @@
     
     <tr>
       <th scope="col">Nr</th>
-      <th scope="col">Submitted By</th>
-      <th scope="col">Confirmed</th>
-      <th scope="col">Submitted at</th>
-      <th scope="col">Full Information</th>
+      <th scope="col">User</th>
+      <th scope="col">Email</th>
+      <th scope="col">Action</th>
+      
     </tr>
   </thead>
   <tbody>
   	@php
     $i = 1;
 	@endphp
-  	@foreach($books as $book)
+  	@foreach($users as $user)
 
     <tr>
       <th scope="row">{{$i++}}</th>
-      <td>{{$book->user->name}}</td>
-      <td></td>
-      <td>{{$book->created_at}}</td>
-      <td><a href="{{url('admin/books/' . $book->id)}}">-></a></td>
+      <td>{{$user->name}}</td>
+      <td>{{$user->email}}</td>
+      <td><a href="{{url('admin/users/' . $user->id)}}">-></a></td>
     </tr>
    </tbody>
    @endforeach
 </table>
     </div>
     <div class="col-3">
-      <a href="{{route('admin.books.create')}}">Add a new book to the list</a>
+      
     </div>
   </div>
 </div>
-	
-
-
-
-
 
 
 

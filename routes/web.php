@@ -26,6 +26,11 @@ Route::group(['middleware' => 'auth'], function(){
 
 	Route::group(['middleware' =>'role:admin','prefix'=>'admin','as'=>'admin.'],function(){
 		//Route::resource('',\App\Http\Controllers\Admin\AdminHomeController::class);
+		
+			Route::resource('users',\App\Http\Controllers\Admin\AdminManageUsersController::class);
+		
+		
+
 		Route::get('', [\App\Http\Controllers\Admin\AdminHomeController::class, 'index'])->name('home.index');
 
 		Route::post('books/{id}/status', [\App\Http\Controllers\Admin\AdminBooksStatusController::class, 'update'])->name('BooksStatus.update');
