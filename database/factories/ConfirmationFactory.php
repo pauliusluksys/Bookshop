@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\IsConfirmed;
+use App\Models\Confirmation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class IsConfirmedFactory extends Factory
+class ConfirmationFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = IsConfirmed::class;
+    protected $model = Confirmation::class;
 
     /**
      * Define the model's default state.
@@ -22,7 +22,7 @@ class IsConfirmedFactory extends Factory
     public function definition()
     {
         return [
-            'is_confirmed_type_id' => 1,
+            'type' => "Accepted",
         ];
     }
 }

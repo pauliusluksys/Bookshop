@@ -14,7 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('', [\App\Http\Controllers\BookController::class, 'index'])->name('home.index');
-Route::get('books/{id}', [\App\Http\Controllers\BookController::class, 'show'])->name('home.show');
+
+Route::get('/books/{id}', [\App\Http\Controllers\BookController::class, 'show'])->name('home.show');
+
+Route::get('/search', [\App\Http\Controllers\SearchBarController::class, 'index'])->name('searchBar.index');
+
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
@@ -39,7 +43,8 @@ Route::group(['middleware' => 'auth'], function(){
 	});
 	Route::group(['middleware'=>'role:user','prefix'=>'user','as'=>'user.'],function(){
 		//Route::resource('',\App\Http\Controllers\User\UserHomeController::class);
-		
+		Route::get('books/{id}/report',[\App\Http\Controllers\User\BooksReportController::class, 'index'])->name('BooksReport.index');
+		Route::post('books/{id}/report',[\App\Http\Controllers\User\BooksReportController::class, 'store'])->name('BooksReport.store');
 
 		Route::resource('books',\App\Http\Controllers\User\UserBooksController::class);
 

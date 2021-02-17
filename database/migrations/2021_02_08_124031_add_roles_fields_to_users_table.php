@@ -15,7 +15,7 @@ class AddRolesFieldsToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             //
-            $table->unsignedInteger('role_id')->constrained()->default('2');
+            $table->string('role')->default('2');
         });
     }
 

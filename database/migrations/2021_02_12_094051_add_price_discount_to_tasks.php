@@ -14,7 +14,7 @@ class AddPriceDiscountToTasks extends Migration
     public function up()
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->double('price');
+            $table->integer('price');
             $table->integer('discount')->nullable();
         });
     }

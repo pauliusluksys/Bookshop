@@ -20,7 +20,7 @@ class CreateBooksTable extends Migration
             $table->timestamps();
             
             
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained();
 
         });
 

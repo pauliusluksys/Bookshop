@@ -9,14 +9,14 @@
 	<div class="d-flex justify-content-between pt-4">
 		<div>
       		<h4 class="d-inline">Book Status:</h4> 
-      		@if($book->isConfirmeds->is_confirmed_type_id===1)
-      		  <h4 class="text-warning d-inline">{{$book->isConfirmeds->isConfirmedType->name}}
+      		@if($book->confirmation->type=='Waiting')
+      		  <h4 class="text-warning d-inline">{{$book->confirmation->type}}
       		  </h4>
-      		@elseif($book->isConfirmeds->is_confirmed_type_id===2)
-      		  <h4 class="text-success d-inline">{{$book->isConfirmeds->isConfirmedType->name}}</h4>
+      		@elseif($book->confirmation->type=='Accepted')
+      		  <h4 class="text-success d-inline">{{$book->confirmation->type}}</h4>
 
       		  @else
-      		  <h4 class="text-danger d-inline">{{$book->isConfirmeds->isConfirmedType->name}}
+      		  <h4 class="text-danger d-inline">{{$book->confirmation->type}}
       		  </h4>
       		@endif
       	</div>
@@ -44,7 +44,7 @@
       <div class="mx-12"> 
       	<div>
       		<h6 class="text-muted"><strong>Last updated at:</strong> 
-      	  		{{$book->updated_at}} By Someone
+      	  		{{$book->updated_at}} 
       	  </h6>
       	  <h2><strong>Title: </strong> {{$book->title}}</h2> 
       	  <h6 class="text-muted"><strong>Author:</strong> 
@@ -65,7 +65,7 @@
       	  	@if($book->discount===null)
       	  	{{$book->price}}€
       	  	@else
-      	  	€{{round($book->price-$book->price*($book->discount/100),2)}} <div class="d-inline-block position-relative">
+      	  	€{{$book->price-$book->price*($book->discount/100)}} <div class="d-inline-block position-relative">
       	  		<div class="position-absolute" style="bottom:1px; white-space: nowrap;"><p class="text-muted text-sm m-0 d-inline"><del>€{{$book->price}}</del></p><p class=" text-sm m-0 d-inline" style="white-space: nowrap;"> {{$book->discount}}% off</p></div></div>
       	  	@endif
       	  </div>

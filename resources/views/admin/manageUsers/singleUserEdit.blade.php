@@ -28,13 +28,7 @@
 		    <input type="email" class="form-control" id="user_email" aria-describedby="author_help" name="user_email" value="{{$user->email}}">
 		    
 		  </div>
-		  <div class="form-group col-md-6">
-      		<label for="inputState">Role</label>
-      		<select id="inputState" class="form-control">
-        		<option selected value="2">Regular User</option>
-        		<option value="1">Admin</option>
-      		</select>
-    	  </div>
+		  
 		  
 		  <div class="mb-3">
 		    <label for="user_password" class="form-label">User New Password:</label>

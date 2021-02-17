@@ -1,9 +1,9 @@
 <x-app-layout>
-	here you can edit a new book
+	
 	<div class="container">
 		<div class="row">
 			<div class="col-sm">
-				One of three columns
+				
 			</div>
 			<div class="col-sm">
 				@if ($errors->any())
@@ -29,6 +29,29 @@
 						<div id="author_help" class="form-text">If there are more than one author, separate them by comma</div>
 					</div>
 					
+					@foreach($genres as $genre)
+					<div class="mb-3">
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" value="{{$genre->name}}" name="genres[]"id="">
+							<label class="form-check-label" for="defaultCheck1">{{$genre->name}}
+							</label>
+						</div>
+					</div>
+					@endforeach
+
+					<div class="mb-3">
+
+       					 <div class="input-group">
+						<label for="book_price" class="form-label">Suggested Price:</label>
+						
+
+						<input type="text" class="form-control text-right" id="book_price" aria-describedby="author_help" name="book_price">
+						<div class="input-group-pretend ">
+          					<div class="input-group-text">€</div>
+        				</div>
+						</div>
+					</div>
+					
 					<div class="mb-3">
 						<label for="book_description" class="form-label">Write some decsription about the book:</label>
 						<textarea class="form-control" id="book_description" rows="4" name="book_description">{{$book->description}}</textarea>
@@ -38,7 +61,7 @@
 				</form>
 			</div>
 			<div class="col-sm">
-				One of three columns
+				
 			</div>
 		</div>
 	</div>

@@ -21,17 +21,17 @@ class BookController extends Controller
     public function index()
     {
         
-            $var='aa';
-            $book;
-                if ($var) {
-                    $book=Book::where('title', 'Like', '%' . $var . '%')->get();
-                 }
-            $authorBooks = Author::find(1)->book()->get();
-                 
+        $var='aa';
+        $book;
+        if ($var) {
+            $book=Book::where('title', 'Like', '%' . $var . '%')->get();
+        }
+        //$authorBooks = Author::find(1)->book()->get();
+        $books=Book::whereHas('confirmation', function($q){
+        $q->where('type', '=', 'Accepted');
+        })->simplePaginate(15);
         
-            return view('home.index',[
-            'books' => Book::simplePaginate(15)
-        ]);
+        return view('home.index',compact('books'));
     }
 
     /**
@@ -64,12 +64,12 @@ class BookController extends Controller
     public function show($id)
     {
         
-       
+     
         $book=Book::find($id);
         //dd($book->getFirstMediaUrl('books_images'));
         
         return view('home.singleBook',compact('book'));
-    
+        
     }
 
     /**

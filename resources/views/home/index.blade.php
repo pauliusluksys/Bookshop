@@ -1,8 +1,19 @@
 <x-app-layout>
   <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-      Hello Regular user!
-    </h2>
+    
+       <div class="container h-100">
+      <div class="d-flex justify-content-center h-100">
+        <form method="GET" action="{{route('searchBar.index')}}">
+        <div class="searchbar">
+          
+          <input class="search_input" type="text" name="search" placeholder="Search...">
+          <button class="search_icon"><i class="fas fa-search"></i></button>
+        </div>
+      </form>
+        </div>
+      </div>
+    
+    
   </x-slot>
 
   <div class="container py-12">

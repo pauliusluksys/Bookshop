@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use Illuminate\Support\Facades\Auth;
-use App\Models\IsConfirmed;
+use App\Models\Confirmation;
 use App\Models\Author;
 use App\Models\Genre;
 use App\Models\BookGenre;
@@ -35,7 +35,9 @@ class UserBooksController extends Controller
      */
     public function create()
     {
-        return view('user.books.create');
+        $genres= Genre::get();
+
+        return view('user.books.create',compact('genres'));
     }
 
     /**
@@ -51,7 +53,7 @@ class UserBooksController extends Controller
         'book_author' => 'required|max:191',
         'book_description' =>'required',
         'book_author' =>'required|max:191',
-        'book_genre' =>'required|max:191',
+        'genres' =>'required',
         'book_price' => 'regex:/^(\d+(.\d{1,2})?)?$/',
         ]);
 
@@ -63,13 +65,12 @@ class UserBooksController extends Controller
          }
          
 
-         $l=0;
          $genre_ids=[];
-         foreach(explode(',',$request->book_genre) as $book_genre){
-                $genre = Genre::firstOrCreate(['name' => $book_genre]);
-                Arr::set($genre_ids, $l++, $genre->id);
+         $l=0;
+         foreach($request->genres as $genre){
+         
+         Arr::set($genre_ids, $l++,Genre::where('name', $genre)->pluck('id')->first());
          }
-       
         
         $book = new Book;
 
@@ -84,10 +85,10 @@ class UserBooksController extends Controller
         $book->author()->attach($author_ids);
         $book->genre()->attach($genre_ids);
 
-        $isConfirmed = new IsConfirmed;
-        $isConfirmed->is_confirmed_type_id=1;
-        $isConfirmed->book_id=$book->id;
-        $isConfirmed->save();
+        $confirmation = new Confirmation;
+        $confirmation->type='waiting';
+        $confirmation->book_id=$book->id;
+        $confirmation->save();
         
 
         return redirect()->route('user.books.index')->with('success','Book has been created successfully');
@@ -123,8 +124,8 @@ class UserBooksController extends Controller
             abort(403);
         }
         $book=Book::find($id);
-
-        return view('user.books.singleBookEdit',compact('book'));
+        $genres=Genre::all();
+        return view('user.books.singleBookEdit')->with(compact('book'))->with(compact('genres'));
     }
 
     /**
@@ -143,20 +144,22 @@ class UserBooksController extends Controller
             'book_title' => 'required|max:191',
             'book_author' => 'required|max:191',
             'book_description' =>'required',
-            'book_genre' =>'required|max:100',
+            'genres' =>'required',
             'book_price'=>'nullable|regex:/^(\d+(.\d{1,2})?)?$/',
          ]);
         $author_ids=[];
          $i=0;
-        foreach(explode(',',$request->book_author) as $book_author){
+         foreach(explode(',',$request->book_author) as $book_author){
                 $author = Author::firstOrCreate(['name' => $book_author]);
                 Arr::set($author_ids, $i++, $author->id);
          }
-         $l=0;
+         
+
          $genre_ids=[];
-         foreach(explode(',',$request->book_genre) as $book_genre){
-                $genre = Genre::firstOrCreate(['name' => $book_genre]);
-                Arr::set($genre_ids, $l++, $genre->id);
+         $l=0;
+         foreach($request->genres as $genre){
+         
+         Arr::set($genre_ids, $l++,Genre::where('name', $genre)->pluck('id')->first());
          }
 
         $book = Book::find($id);
@@ -164,7 +167,7 @@ class UserBooksController extends Controller
         $book->title = $request->book_title;
         $book->description = $request->book_description;
         $book->user_id = Auth::user()->id;
-        $book->price = $request->book_price;
+        $book->price = $request->book_price*100;
         $book->save();
         $book->author()->sync($author_ids);
         $book->genre()->sync($genre_ids);

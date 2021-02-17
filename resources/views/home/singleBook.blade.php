@@ -33,7 +33,12 @@
             @endforeach
           </h6>
           <div><strong>Price:</strong>
+            @if($book->discount===null)
             {{$book->price}}€
+            @else
+            €{{$book->price-$book->price*($book->discount/100)}} <div class="d-inline-block position-relative">
+              <div class="position-absolute" style="bottom:1px; white-space: nowrap;"><p class="text-muted text-sm m-0 d-inline"><del>€{{$book->price}}</del></p><p class=" text-sm m-0 d-inline" style="white-space: nowrap;"> {{$book->discount}}% off</p></div></div>
+            @endif
           </div>
           <div><strong>Discount:</strong>
             @if($book->discount===null)
@@ -53,6 +58,7 @@
       	<div class="py-6">
       	  <p><strong>Description:</strong> {{$book->description}}</p>
       	</div>
+        <div><a href="/user/books/{{$book->id}}/report">Report this book</a></div>
       </div>
     </div>
       @livewire('book-ratings', ['book' => $book], key($book->id))

@@ -8,6 +8,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Database\Eloquent\Scope;
 class Book extends Model implements HasMedia
 {
     use HasFactory;
@@ -18,13 +19,14 @@ class Book extends Model implements HasMedia
         'title',
         'description',
         'price',
+        'discount,'
         
     ];
 
 
-    public function isConfirmeds()
+    public function confirmation()
     {
-        return $this->hasOne(IsConfirmed::class);
+        return $this->hasOne(Confirmation::class);
     }
     public function user()
     {
@@ -44,7 +46,13 @@ class Book extends Model implements HasMedia
         return $this->hasMany('App\Models\Rating');
     }
 
-
-
+    public function BookReport()
+    {
+        return $this->hasMany('App\Models\BookReport');
+    }
+      public function scopeConfirmed($query)
+    {
+        return $query->where('confirmed_type', '=', "Accepted");
+    }
     
 }

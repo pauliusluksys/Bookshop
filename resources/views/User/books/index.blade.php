@@ -1,5 +1,5 @@
 <x-app-layout>
-	here you can see your added to a list books
+	
 
 
 	@if ($message = Session::get('success'))
@@ -10,7 +10,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-2">
-				One of three columns
+				
 			</div>
 			<div class="col-7">
 				<table class="table table-primary table-striped">
@@ -37,7 +37,7 @@
 								{{$author->name}}
 								@endforeach
 							</td>
-							<td>{{$book->isConfirmeds->isConfirmedType->name}}</td>
+							<td>{{$book->confirmation->type}}</td>
 							<td><a href="{{url('user/books/' . $book->id)}}">-></a></td>
 						</tr>
 					</tbody>

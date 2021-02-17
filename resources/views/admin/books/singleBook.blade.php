@@ -16,18 +16,18 @@
 <div class="container-float mx-4">
 	<div class="d-flex justify-content-between pt-4">
 		<div>
-      		<h4 class="d-inline">Book Status:</h4> 
-      		@if($book->isConfirmeds->is_confirmed_type_id===1)
-      		  <h4 class="text-warning d-inline">{{$book->isConfirmeds->isConfirmedType->name}}
-      		  </h4>
-      		@elseif($book->isConfirmeds->is_confirmed_type_id===2)
-      		  <h4 class="text-success d-inline">{{$book->isConfirmeds->isConfirmedType->name}}</h4>
+          <h4 class="d-inline">Book Status:</h4> 
+          @if($book->confirmation->type=='Waiting')
+            <h4 class="text-warning d-inline">{{$book->confirmation->type}}
+            </h4>
+          @elseif($book->confirmation->type=='Accepted')
+            <h4 class="text-success d-inline">{{$book->confirmation->type}}</h4>
 
-      		  @else
-      		  <h4 class="text-danger d-inline">{{$book->isConfirmeds->isConfirmedType->name}}
-      		  </h4>
-      		@endif
-      	</div>
+            @else
+            <h4 class="text-danger d-inline">{{$book->confirmation->type}}
+            </h4>
+          @endif
+        </div>
       	
      </div>
   <div class="row  py-12">
@@ -36,15 +36,15 @@
        <img src="{{$book->id}}" alt="" title=""/>
         <div>
 
-          <form action="{{url('/admin/books/'.$book->isConfirmeds->id.'/status')}}" method="POST">
+          <form action="{{url('/admin/books/'.$book->confirmation->id.'/status')}}" method="POST">
             @csrf
             
             <p><strong>Status:</strong></p>
-            <select class="form-select" aria-label="Default select example" name="book_is_confirmed_type">
+            <select class="form-select" aria-label="Default select example" name="book_confirmation_type">
               <option selected>Open this select menu</option>
-              <option value="1">Not Confirmed</option>
-              <option value="2">Confirmed</option>
-              <option value="3">Denied</option>
+              <option value="Waiting">Not Confirmed Yet</option>
+              <option value="Accepted">Confirmed</option>
+              <option value="Denied">Denied</option>
             </select>
            <button type="submit" class="btn btn-primary">Submit</button>
           </form>

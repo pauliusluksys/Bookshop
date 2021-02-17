@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateIsConfirmedTypesTable extends Migration
+class CreateConfirmationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateIsConfirmedTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('is_confirmed_types', function (Blueprint $table) {
+        Schema::create('confirmations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('message')->nullable();
+            $table->string('type')->default('waiting');
             $table->timestamps();
+            $table->foreignId("book_id")->constrained();
         });
     }
 
@@ -27,6 +29,6 @@ class CreateIsConfirmedTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('is_confirmed_types');
+        Schema::dropIfExists('confirmations');
     }
 }

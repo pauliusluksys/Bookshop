@@ -19,24 +19,15 @@ class DatabaseSeeder extends Seeder
             'name' => "admin",
             'email' => "admin@gmail.com",
             'password' => Hash::make('password'),
+            'role' =>'admin',
         ]);
        DB::table('users')->insert([
             'name' => "user",
             'email' => "user@gmail.com",
             'password' => Hash::make('password'),
+            'role' =>'regular',
         ]);
-       DB::table('is_confirmed_types')->insert([
-            'name' => "Admin is yet to confirm",
-            
-        ]);
-        DB::table('is_confirmed_types')->insert([
-            'name' => "Admin has accepted",
-            
-        ]);
-         DB::table('is_confirmed_types')->insert([
-            'name' => "Admin has denied",
-            
-        ]);
+       
 
 
           // $books =\App\Models\Book::factory()->count(30)->create()->each(function ($book) {
@@ -45,7 +36,7 @@ class DatabaseSeeder extends Seeder
           //   $book->isConfirmed()->save($isConfirmed);
           //   });
 
-         $book=\App\Models\Book::factory()->has(\App\Models\IsConfirmed::factory()->count(1))->count(51)->create();
+         $book=\App\Models\Book::factory()->has(\App\Models\Confirmation::factory()->count(1))->count(51)->create();
 
          $author=\App\Models\Author::factory()->count(20)->create();
 

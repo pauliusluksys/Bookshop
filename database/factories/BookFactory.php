@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Book;
-use App\Models\IsConfirmed;
+use App\Models\Confirmation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BookFactory extends Factory
@@ -26,7 +26,7 @@ class BookFactory extends Factory
             'title' => $this->faker->realText(100,2),
             'description' => $this->faker->text,
             'user_id' => 2,
-            'price' => $this->faker->randomFloat(2, 1, 100),
+            'price' => $this->faker->randomNumber(5, false),
             'discount' => $this->faker->randomNumber(2, false),
         ];
     }

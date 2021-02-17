@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 class AdminManageUsersController extends Controller
 {
     /**
@@ -78,13 +79,12 @@ class AdminManageUsersController extends Controller
             'user_name'=>'required',
             'user_email'=>'required',
             'user_password'=>'required',
-            'user_role_id'=>'required',
+            
         ]);
         $user = User::find($id);
         $user->name=$request->user_name;
         $user->email=$request->user_email;
-        $user->password=$request->user_password;
-        $user->role_id=$request->user_role_id;
+        $user->password=Hash::make($request->user_password);
         $user->save();
         return redirect()->route('admin.users.show',['user'=>$user->id])->with('success','User has been updated successfully');
     }

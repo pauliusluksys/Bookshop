@@ -18,13 +18,13 @@
 
                    
                     
-                    @if (auth()->user()->role_id == 2)
+                    @if (auth()->user()->role == 'regular')
                          <x-jet-nav-link href="{{ route('user.books.index') }}" :active="request()->routeIs('books.index')">
                             {{ __('My Books') }}
                         </x-jet-nav-link>
                     @endif
 
-                    @if (auth()->user()->role_id == 1)
+                    @if (auth()->user()->role == 'admin')
                          <x-jet-nav-link href="{{ route('admin.books.index') }}" :active="request()->routeIs('books.index')">
                             {{ __('Manage Books') }}
                         </x-jet-nav-link>
