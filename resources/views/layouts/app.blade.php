@@ -23,23 +23,11 @@
     <body class="font-sans antialiased">
         <x-jet-banner />
 
-        <div class="min-h-screen bg-gray-100">
-            @if (Route::has('login'))
-                <div class="hidden top-0 right-0 px-6 py-4 sm:block" style="float:right;">
-                    @auth
-                        
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-            @auth
-            @livewire('navigation-menu')
-            @endauth
+        
+            
+            
+            
+            @livewire('navigation')
             <!-- Page Heading -->
             @if (isset($header))
                 <header class="bg-white shadow">
@@ -48,12 +36,12 @@
                     </div>
                 </header>
             @endif
-
+             
             <!-- Page Content -->
             <main>
                 {{ $slot }}
             </main>
-        </div>
+       
 
         @stack('modals')
 

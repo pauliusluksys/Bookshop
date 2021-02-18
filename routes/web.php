@@ -1,5 +1,5 @@
 <?php
-
+namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,40 +13,47 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('', [\App\Http\Controllers\BookController::class, 'index'])->name('home.index');
+Route::redirect('/','/books');
 
-Route::get('/books/{id}', [\App\Http\Controllers\BookController::class, 'show'])->name('home.show');
+Route::get('/books', [BookController::class, 'index'])->name('home.index');
 
-Route::get('/search', [\App\Http\Controllers\SearchBarController::class, 'index'])->name('searchBar.index');
+Route::get('/books/{id}', [BookController::class, 'show'])->name('home.show');
 
+Route::get('/search', [SearchBarController::class, 'index'])->name('searchBar.index');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
+	return view('dashboard');
 })->name('dashboard');
 
 
+
+
 Route::group(['middleware' => 'auth'], function(){
+
 	Route::get('redirects', 'App\Http\Controllers\HomeController@index');
 
+
 	Route::group(['middleware' =>'role:admin','prefix'=>'admin','as'=>'admin.'],function(){
-		//Route::resource('',\App\Http\Controllers\Admin\AdminHomeController::class);
-		
-			Route::resource('users',\App\Http\Controllers\Admin\AdminManageUsersController::class);
-		
-		
+	//Route::resource('',\App\Http\Controllers\Admin\AdminHomeController::class);
 
-		Route::get('', [\App\Http\Controllers\Admin\AdminHomeController::class, 'index'])->name('home.index');
+		Route::resource('users',Admin\AdminManageUsersController::class);
 
-		Route::post('books/{id}/status', [\App\Http\Controllers\Admin\AdminBooksStatusController::class, 'update'])->name('BooksStatus.update');
+		Route::resource('books',Admin\AdminBooksController::class);
 
-		Route::resource('books',\App\Http\Controllers\Admin\AdminBooksController::class);
+		Route::get('', [Admin\AdminHomeController::class, 'index'])->name('home.index');
+
+		Route::post('books/{id}/status', [Admin\AdminBooksStatusController::class, 'update'])->name('BooksStatus.update');
+
+
 	});
 	Route::group(['middleware'=>'role:user','prefix'=>'user','as'=>'user.'],function(){
-		//Route::resource('',\App\Http\Controllers\User\UserHomeController::class);
-		Route::get('books/{id}/report',[\App\Http\Controllers\User\BooksReportController::class, 'index'])->name('BooksReport.index');
-		Route::post('books/{id}/report',[\App\Http\Controllers\User\BooksReportController::class, 'store'])->name('BooksReport.store');
+	//Route::resource('',\App\Http\Controllers\User\UserHomeController::class);
+		Route::resource('books',User\UserBooksController::class);
 
-		Route::resource('books',\App\Http\Controllers\User\UserBooksController::class);
+		Route::get('books/{id}/report',[User\BooksReportController::class, 'index'])->name('BooksReport.index');
+
+		Route::post('books/{id}/report',[User\BooksReportController::class, 'store'])->name('BooksReport.store');
+
 
 	});
 

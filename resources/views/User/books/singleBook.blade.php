@@ -48,13 +48,13 @@
       	  </h6>
       	  <h2><strong>Title: </strong> {{$book->title}}</h2> 
       	  <h6 class="text-muted"><strong>Author:</strong> 
-      	  	@foreach($book->author as $author)
+      	  	@foreach($book->authors as $author)
       	  	{{$author->name}},
       	  	@endforeach
       	  </h6>
 
       	  <h6 class="text-muted"><strong>Genre:</strong> 
-      	  	@foreach($book->genre as $genre)
+      	  	@foreach($book->genres as $genre)
       	  	{{$genre->name}},
       	  	@endforeach
       	  </h6>

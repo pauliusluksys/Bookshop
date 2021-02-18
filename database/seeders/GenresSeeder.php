@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Genre;
+use Illuminate\Support\Facades\DB;
 class GenresSeeder extends Seeder
 {
     /**
@@ -13,8 +14,17 @@ class GenresSeeder extends Seeder
      */
     public function run()
     {
-        Genre::create('name'=>'Classics');
-        Genre::create('name'=>'Fiction');
-        Genre::create('name'=>'Romance');
+        DB::table('genres')->insert([
+            'name' => 'Fiction',
+            
+        ]);
+        DB::table('genres')->insert([
+            'name' => 'Romance',
+            
+        ]);
+        DB::table('genres')->insert([
+            'name' => 'Detective and Mystery',
+            
+        ]);
     }
 }

@@ -14,7 +14,7 @@ class SearchBarController extends Controller
         $search = $request->input('search');
         $books = Book::where( function($query) use ($search) {
             $query->where('title','LIKE','%'.$search.'%');
-            $query->orWhereHas('author' ,function($query) use ($search) {
+            $query->orWhereHas('authors' ,function($query) use ($search) {
                 $query->where('name', 'LIKE','%'.$search.'%');
             });
             })->paginate(25);

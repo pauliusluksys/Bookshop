@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use App\Models\User;
@@ -14,6 +15,13 @@ class Book extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
 
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+              ->width(232)
+              ->height(368)
+              ->sharpen(10);
+    }
 
     protected $fillable = [
         'title',
@@ -32,11 +40,11 @@ class Book extends Model implements HasMedia
     {
          return $this->belongsTo(User::class);
     }
-     public function author()
+     public function authors()
     {
         return $this->belongsToMany(Author::class, 'author_book');
     }	
-    public function genre()
+    public function genres()
     {
         return $this->belongsToMany(Genre::class, 'book_genre');
     }
@@ -46,7 +54,7 @@ class Book extends Model implements HasMedia
         return $this->hasMany('App\Models\Rating');
     }
 
-    public function BookReport()
+    public function BookReports()
     {
         return $this->hasMany('App\Models\BookReport');
     }

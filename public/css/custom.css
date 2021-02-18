@@ -22,7 +22,7 @@
   width: 105px;
 }
 .single-book-image{
-  height: 430px; width: 273px;
+  height: 430px; max-width:250px;
 }
 .book-new{
   
@@ -80,3 +80,16 @@
     color:white;
     text-decoration:none;
     }
+
+    .fit-image{
+      width: 100%;
+      object-fit: cover;
+      height: 100%; /* only if you want fixed height */
+    }
+
+
+    
+.form-control-borderless {
+    border: none;
+}
+

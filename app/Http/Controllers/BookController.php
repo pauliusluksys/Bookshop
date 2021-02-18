@@ -66,6 +66,8 @@ class BookController extends Controller
         
      
         $book=Book::find($id);
+        $avgRating=$book->ratings->avg('rating');
+        //dd($avgRating);
         //dd($book->getFirstMediaUrl('books_images'));
         
         return view('home.singleBook',compact('book'));

@@ -33,7 +33,7 @@
 							<th scope="row">{{$i++}}</th>
 							<td>{{$book->title}}</td>
 							<td>
-								@foreach($book->author as $author)
+								@foreach($book->authors as $author)
 								{{$author->name}}
 								@endforeach
 							</td>

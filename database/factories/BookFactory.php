@@ -26,7 +26,7 @@ class BookFactory extends Factory
             'title' => $this->faker->realText(100,2),
             'description' => $this->faker->text,
             'user_id' => 2,
-            'price' => $this->faker->randomNumber(5, false),
+            'price' => $this->faker->randomFloat(2, 1,100),
             'discount' => $this->faker->randomNumber(2, false),
         ];
     }

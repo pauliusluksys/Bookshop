@@ -1,17 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
     
-       <div class="container h-100">
-      <div class="d-flex justify-content-center h-100">
-        <form method="GET" action="{{route('searchBar.index')}}">
-        <div class="searchbar">
-          
-          <input class="search_input" type="text" name="search" placeholder="Search...">
-          <button class="search_icon"><i class="fas fa-search"></i></button>
-        </div>
-      </form>
-        </div>
-      </div>
+       
     
     
   </x-slot>
@@ -29,7 +19,7 @@
             <a href="{{url('books/' . $book->id)}}">
 
              <div class="border border-primary book-picture-container position-relative">
-
+              <img src="{{asset('storage/IMG_20210206_152320.jpg')}}" class="img-responsive fit-image"/>
               @if(Carbon\Carbon::now()->subDays(7)->toDateTimeString()<$book->created_at)
 
               <div class="book-new bg-success text-white">new</div>
@@ -44,7 +34,7 @@
               <div>
 
                 <div class="h-25 d-inline-block text-truncate" style="width:100px;">
-                  @foreach($book->author as $author)
+                  @foreach($book->authors as $author)
                   {{$author->name}}
                   @endforeach
                 </div>
