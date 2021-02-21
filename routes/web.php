@@ -52,7 +52,7 @@ Route::group(['middleware' => 'auth'], function(){
 
 		Route::get('books/{id}/report',[User\BooksReportController::class, 'index'])->name('BooksReport.index');
 
-		Route::post('books/{id}/report',[User\BooksReportController::class, 'store'])->name('BooksReport.store');
+		Route::post('books/{id}/report',[User\BooksReportController::class, 'send'])->name('BooksReport.send');
 
 
 	});

@@ -27,12 +27,19 @@
       	  <h2><strong>Title: </strong> {{$book->title}}</h2> 
       	  <h6 class="text-muted"><strong>Author(s):</strong>
             @foreach($book->authors as $author)
-           {{$author->name}} 
+            @if ($loop->first) {{$author->name}} 
+            @else
+           ,{{$author->name}}
+           @endif
            @endforeach
           </h6>
           <h6 class="text-muted"><strong>Genre:</strong> 
             @foreach($book->genres as $genre)
-            {{$genre->name}},
+            @if ($loop->first) {{$genre->name}} 
+            @else
+           ,{{$genre->name}}
+           @endif
+            
             @endforeach
           </h6>
           <div><strong>Price:</strong>
@@ -70,7 +77,7 @@
       	<div class="py-6">
       	  <p><strong>Description:</strong> {{$book->description}}</p>
       	</div>
-        <div><a href="/user/books/{{$book->id}}/report">Report this book</a></div>
+        @auth<div><a href="/user/books/{{$book->id}}/report">Report this book</a></div>@endauth
       </div>
     </div>
       @livewire('book-ratings', ['book' => $book], key($book->id))

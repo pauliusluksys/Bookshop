@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BookReport;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+use App\Models\Book;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\BookReportNotification;
 class BooksReportController extends Controller
 {
 	public function index($id)
@@ -14,21 +18,21 @@ class BooksReportController extends Controller
 		return view('user.books.bookReport',compact('id'));
 	}
 
-	public function store(Request $request)
+	public function send($id)
 	{
-		$validated = $request->validate([
-			'report_book_message' => 'required',
-			'report_book_id' => 'required',
-		]);
+		
+		$book=Book::find($id);
+		$adminUsers=User::where('role','admin')->get();
+		if($adminUsers!=NULL){
+			Notification::send($adminUsers,new BookReportNotification($book));
+			
+			return redirect()->route('home.index')->with('success','Report has been sent');
 
+		}
+		else{
+			return redirect()->route('home.index')->with('error','Something went wrong!');
 
-		$report = new BookReport;
-
-		$report->book_id = $request->report_book_id;
-		$report->user_id = Auth::id();
-		$report->message = $request->report_book_message;
-
-		$report->save();
-		return redirect()->route('user.books.index')->with('success','Report has been sent');
+		}
+		
 	}
 }

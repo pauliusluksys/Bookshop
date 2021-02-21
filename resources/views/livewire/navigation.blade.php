@@ -43,7 +43,9 @@
 				</div>
 				<!--end of col-->
 				<div class="col">
-					<input class="form-control form-control-lg form-control-borderless" type="search"  placeholder="Search topics or keywords" name="search">
+					<input class="form-control form-control-lg form-control-borderless" type="search"  value="@if(null !==request('search'))
+					{{request('search')}}
+					@endif" name="search">
 				</div>
 				<!--end of col-->
 				<div class="col-auto">

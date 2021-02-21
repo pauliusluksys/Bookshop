@@ -62,10 +62,10 @@
       	  	
       	 
       	  
-      	  	@if($book->discount===null)
-      	  	{{$book->price}}€
-      	  	@else
-      	  	€{{$book->price-$book->price*($book->discount/100)}} <div class="d-inline-block position-relative">
+      	  	 @if($book->discount===null)
+            {{$book->price}}€
+            @else
+            €{{round($book->price-$book->price*($book->discount/100),2)}} <div class="d-inline-block position-relative">
       	  		<div class="position-absolute" style="bottom:1px; white-space: nowrap;"><p class="text-muted text-sm m-0 d-inline"><del>€{{$book->price}}</del></p><p class=" text-sm m-0 d-inline" style="white-space: nowrap;"> {{$book->discount}}% off</p></div></div>
       	  	@endif
       	  </div>

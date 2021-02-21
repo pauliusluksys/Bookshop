@@ -22,7 +22,7 @@ class UserBooksController extends Controller
      */
     public function index()
     {
-        $books=Book::where('user_id', Auth::user()->id)->get();
+        $books=Book::with('authors')->where('user_id', Auth::user()->id)->get();
         
         
         return view('user.books.index',compact('books'));
@@ -55,6 +55,7 @@ class UserBooksController extends Controller
         'book_author' =>'required|max:191',
         'genres' =>'required',
         'book_price' => 'regex:/^(\d+(.\d{1,2})?)?$/',
+        'book_image' =>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
          $author_ids=[];
@@ -71,26 +72,32 @@ class UserBooksController extends Controller
          
          Arr::set($genre_ids, $l++,Genre::where('name', $genre)->pluck('id')->first());
          }
-        
-        $book = new Book;
 
-        $book->title = $request->book_title;
-        $book->description = $request->book_description;
-        $book->price = $request->book_price;
-        $book->user_id = Auth::user()->id;
+        $book = Book::create([
+            'title' => $request->book_title,
+            'description' => $request->book_description,
+            'user_id' => Auth::id(),
+            'price' =>$request->book_price,
+
+        ]);
+
+        
+
         $book->addMediaFromRequest('book_image')->toMediaCollection('books_images');
 
-        $book->save();
         
-        $book->author()->attach($author_ids);
-        $book->genre()->attach($genre_ids);
-
-        $confirmation = new Confirmation;
-        $confirmation->type='waiting';
-        $confirmation->book_id=$book->id;
-        $confirmation->save();
         
+        $book->authors()->attach($author_ids);
+        $book->genres()->attach($genre_ids);
 
+        $confirmation = Confirmation::create([
+        
+        'type'='waiting',
+        'book_id'=$book->id,
+        
+        ]);
+
+        $books=Book::all();
         return redirect()->route('user.books.index')->with('success','Book has been created successfully');
     }
     
@@ -141,9 +148,9 @@ class UserBooksController extends Controller
             abort(403);
         }
         $request->validate([
-            'book_title' => 'required|max:191',
-            'book_author' => 'required|max:191',
-            'book_description' =>'required',
+            'book_title' => 'required|min:5|max:191',
+            'book_author' => 'required|min:5|max:191',
+            'book_description' =>'required|min:10',
             'genres' =>'required',
             'book_price'=>'nullable|regex:/^(\d+(.\d{1,2})?)?$/',
          ]);

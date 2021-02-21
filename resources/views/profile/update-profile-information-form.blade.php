@@ -59,11 +59,7 @@
             <x-jet-input-error for="name" class="mt-2" />
         </div>
 
-        <div class="col-span-6 sm:col-span-4">
-            <x-jet-label for="birth_date" value="{{ __('BirthDate') }}" />
-            <x-jet-input id="birth_date" type="text" class="mt-1 block w-full" wire:model.defer="state.name"/>
-            <x-jet-input-error for="birth_date" class="mt-2" />
-        </div>
+        
 
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">

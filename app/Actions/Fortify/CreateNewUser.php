@@ -24,10 +24,14 @@ class CreateNewUser implements CreatesNewUsers
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => $this->passwordRules(),
+            'date' => ['required', 'date'],
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ])->validate();
+        $newDate = \Carbon\Carbon::createFromFormat('d/m/Y', $input['date'])->format('Y-m-d');
+        
 
         return User::create([
+            'birth_date' => $newDate,
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),

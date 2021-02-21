@@ -16,7 +16,7 @@
 					</ul>
 				</div>
 				@endif
-				<form action="{{route('user.BooksReport.store',$id)}}" method="POST">
+				<form action="{{route('user.BooksReport.send',$id)}}" method="POST">
 					@csrf
 					<input type="hidden" id="custId" name="report_book_id" value="{{$id}}">
 					<div class="mb-3">

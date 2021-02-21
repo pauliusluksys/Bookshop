@@ -15,22 +15,17 @@ class Book extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
 
-    public function registerMediaConversions(Media $media = null): void
-    {
-        $this->addMediaConversion('thumb')
-              ->width(232)
-              ->height(368)
-              ->sharpen(10);
-    }
+    
 
     protected $fillable = [
         'title',
         'description',
         'price',
-        'discount,'
+        'discount',
+        'user_id',
         
     ];
-
+    protected $perPage= 25;
 
     public function confirmation()
     {
@@ -60,7 +55,9 @@ class Book extends Model implements HasMedia
     }
       public function scopeConfirmed($query)
     {
-        return $query->where('confirmed_type', '=', "Accepted");
+        return $query->whereHas('confirmation', function($q){
+        $q->where('type', '=', 'Accepted');
+        });
     }
     
 }
