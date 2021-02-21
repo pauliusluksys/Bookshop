@@ -92,8 +92,8 @@ class UserBooksController extends Controller
 
         $confirmation = Confirmation::create([
         
-        'type'='waiting',
-        'book_id'=$book->id,
+        'type'=>'waiting',
+        'book_id'=>$book->id,
         
         ]);
 

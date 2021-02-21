@@ -37,25 +37,25 @@ class AdminBooksController extends Controller
      */
     public function store(Request $request)
     {
-         $validated = $request->validate([
+       $validated = $request->validate([
         'book_title' => 'required|max:191',
         'book_author' => 'required|max:191',
         'book_description' =>'required',
-        ]);
+    ]);
 
 
-        $book = new Book;
+       $book = new Book;
 
-        $book->title = $request->book_title;
-        $book->description = $request->book_description;
-        $book->confirmed = 0;
-        $book->author_id = 1;
-        $book->user_id = Auth::user()->id;
-        $book->save();
+       $book->title = $request->book_title;
+       $book->description = $request->book_description;
+       $book->confirmed = 0;
+       $book->author_id = 1;
+       $book->user_id = Auth::user()->id;
+       $book->save();
 
-        return redirect()->route('admin.books.index')->with('success','Book has been created successfully');
-    }
-    
+       return redirect()->route('admin.books.index')->with('success','Book has been created successfully');
+   }
+   
 
     /**
      * Display the specified resource.
@@ -96,15 +96,15 @@ class AdminBooksController extends Controller
             'book_title' => 'required|max:191',
             'book_author' => 'required|max:191',
             'book_description' =>'required',
-         ]);
+        ]);
         $book = Book::find($id);
-    
+        
         $book->title = $request->book_title;
         $book->description = $request->book_description;
         $book->author_id = 1;
         $book->user_id = Auth::user()->id;
         $book->save();
-return redirect()->route('admin.books.show',['book'=>$book->id])->with('success','Book has been updated successfully');
+        return redirect()->route('admin.books.show',['book'=>$book->id])->with('success','Book has been updated successfully');
     }
 
     /**
