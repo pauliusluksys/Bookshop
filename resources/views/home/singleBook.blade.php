@@ -44,18 +44,20 @@
             @endforeach
           </h6>
           <div><strong>Price:</strong>
-            @if($book->discount===null)
-            {{$book->price}}€
+            @if($book->discount!==NULL&&$book->discount>0)
+                  €{{round($book->price-$book->price*($book->discount/100),2)}} <div class="d-inline-block position-relative">
+                      <div class="position-absolute" style="bottom:1px; white-space: nowrap;"><p class="text-muted text-sm m-0 d-inline"><del>€{{$book->price}}</del></p><p class=" text-sm m-0 d-inline" style="white-space: nowrap;"> {{$book->discount}}% off</p></div></div>
             @else
-            €{{round($book->price-$book->price*($book->discount/100),2)}} <div class="d-inline-block position-relative">
-              <div class="position-absolute" style="bottom:1px; white-space: nowrap;"><p class="text-muted text-sm m-0 d-inline"><del>€{{$book->price}}</del></p><p class=" text-sm m-0 d-inline" style="white-space: nowrap;"> {{$book->discount}}% off</p></div></div>
+                  {{$book->price}}€
+
               @endif
             </div>
             <div><strong>Discount:</strong>
-              @if($book->discount===null)
-              No discount
+              @if($book->discount!==NULL&&$book->discount>0)
+                    {{$book->discount}}%
+
               @else
-              {{$book->discount}}%
+                    No discount
               @endif
             </div>
           </div>

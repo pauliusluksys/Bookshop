@@ -20,27 +20,28 @@ class BookController extends Controller
      */
     public function index()
     {
-        
-        
+
+
         //$authorBooks = Author::find(1)->book()->get();
-        $books=Book::with('authors')->confirmed()->simplePaginate();
-        
+        $books=Book::with('authors','media')->confirmed()->simplePaginate();
+
+
         return view('home.index',compact('books'));
     }
 
-   
+
     public function show($id)
     {
-        
-     
+
+
         $book=Book::with('ratings','authors','genres')->find($id);
         $avgRating=$book->ratings->avg('rating');
         //dd($avgRating);
         //dd($book->getFirstMediaUrl('books_images'));
-        
+
         return view('home.singleBook',compact('book'));
-        
+
     }
 
-    
+
 }

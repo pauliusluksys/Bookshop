@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\HasMedia;
+
 use Spatie\MediaLibrary\InteractsWithMedia;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
@@ -15,7 +16,7 @@ class Book extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
 
-    
+
 
     protected $fillable = [
         'title',
@@ -23,7 +24,7 @@ class Book extends Model implements HasMedia
         'price',
         'discount',
         'user_id',
-        
+
     ];
     protected $perPage= 25;
 
@@ -38,7 +39,7 @@ class Book extends Model implements HasMedia
      public function authors()
     {
         return $this->belongsToMany(Author::class, 'author_book');
-    }	
+    }
     public function genres()
     {
         return $this->belongsToMany(Genre::class, 'book_genre');
@@ -53,11 +54,12 @@ class Book extends Model implements HasMedia
     {
         return $this->hasMany('App\Models\BookReport');
     }
+
       public function scopeConfirmed($query)
     {
         return $query->whereHas('confirmation', function($q){
         $q->where('type', '=', 'Accepted');
         });
     }
-    
+
 }

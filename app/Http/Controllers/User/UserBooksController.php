@@ -21,8 +21,7 @@ class UserBooksController extends Controller
      */
     public function index()
     {
-        $books=Book::with('authors','confirmation','genres')->where('user_id', Auth::user()->id)->Paginate();
-
+        $books=Book::with('authors','confirmation','genres','media')->where('user_id', Auth::user()->id)->Paginate();
 
         return view('user.books.index',compact('books'));
     }
@@ -48,9 +47,9 @@ class UserBooksController extends Controller
     public function store(Request $request)
     {
          $validated = $request->validate([
-        'book_title' => 'required|max:191',
-        'book_author' => 'required|max:191',
-        'book_description' =>'required',
+        'book_title' => 'required|min:5|max:191',
+        'book_author' => 'required|min:5|max:191',
+        'book_description' =>'required|min:10',
         'genres' =>'required',
         'book_price' => 'regex:/^\d+([.,]\d{1,2})?$/',
         'book_image' =>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
@@ -151,6 +150,7 @@ class UserBooksController extends Controller
             'book_description' =>'required|min:10',
             'genres' =>'required',
             'book_price'=>'required|regex:/^\d+([.,]\d{1,2})?$/',
+            'book_image' =>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
          ]);
 
 
@@ -174,8 +174,11 @@ class UserBooksController extends Controller
          $genreId=Genre::where('name',$genre)->first();
          $book->genres()->sync($genreId->id);
          }
-
-
+         if($request->book_image!=null){
+             $bookMediaItems = $book->getMedia('books_images');
+             $bookMediaItems->each->delete();
+             $book->addMediaFromRequest('book_image')->toMediaCollection('books_images');
+         }
 
 
 

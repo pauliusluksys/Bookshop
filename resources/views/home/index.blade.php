@@ -1,9 +1,9 @@
 <x-app-layout>
   <x-slot name="header">
-    
-   
-    
-    
+
+
+
+
   </x-slot>
 
   <div class="container py-12">
@@ -19,17 +19,17 @@
             <a href="{{url('books/' . $book->id)}}">
 
              <div class="border border-primary book-picture-container position-relative">
-              <img src="{{asset('storage/IMG_20210206_152320.jpg')}}" class="img-responsive fit-image"/>
+              <img src="{{asset($book->getMedia('books_images')->first()->getUrl())}}" class="img-responsive fit-image"/>
               @if(Carbon\Carbon::now()->subDays(7)->toDateTimeString()<$book->created_at)
 
               <div class="book-new bg-success text-white">new</div>
               @endif
-              @if($book->discount!==NULL)
+              @if($book->discount!==NULL&&$book->discount>0)
               <div class="book-discount bg-primary text-white">{{$book->discount."%"}}</div>
               @endif
             </div>
 
-            <div class="border border-primary book-information-container">	 
+            <div class="border border-primary book-information-container">
               <div class="h-25 d-inline-block text-truncate">{{$book->title}}</div>
               <div>
 
@@ -41,11 +41,12 @@
 
               </div>
               <div class="d-inline-block text-truncate">
-                @if($book->discount===null)
-                {{$book->price}}€
+                @if($book->discount!==NULL&&$book->discount>0)
+                      €{{round($book->price-$book->price*($book->discount/100),2)}}
+                      <p class="text-muted text-sm m-0 d-inline"><del>€{{$book->price}}</del></p>
                 @else
-                €{{round($book->price-$book->price*($book->discount/100),2)}} 
-                <p class="text-muted text-sm m-0 d-inline"><del>€{{$book->price}}</del></p>
+                      {{$book->price}}€
+
                 @endif
               </div>
             </div>
