@@ -1,5 +1,5 @@
 <x-app-layout>
-	
+
 
 
 	@if ($message = Session::get('success'))
@@ -10,7 +10,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-2">
-				
+
 			</div>
 			<div class="col-7">
 				<table class="table table-primary table-striped">
@@ -19,7 +19,7 @@
 							<th scope="col">Nr</th>
 							<th scope="col">Title</th>
 							<th scope="col">Author</th>
-							<th scope="col">Confirmed</th>
+							<th scope="col">Confirmation</th>
 							<th scope="col">Full Information</th>
 						</tr>
 					</thead>
@@ -43,13 +43,14 @@
 					</tbody>
 					@endforeach
 				</table>
+                {{ $books->links() }}
 			</div>
 			<div class="col-3">
 				<a href="{{route('user.books.create')}}">Add a new book to the list</a>
 			</div>
 		</div>
 	</div>
-	
+
 
 
 

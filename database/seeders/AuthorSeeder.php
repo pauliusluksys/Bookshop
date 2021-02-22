@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-
-class RoleSeeder extends Seeder
+use App\Models\Author;
+class AuthorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,6 +13,6 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Author::factory()->count(20)->create();
     }
 }

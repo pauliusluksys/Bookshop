@@ -3,9 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Genre;
 use Illuminate\Support\Facades\DB;
-class GenresSeeder extends Seeder
+
+class GenreSeeder extends Seeder
 {
     /**
      * Run the database seeds.

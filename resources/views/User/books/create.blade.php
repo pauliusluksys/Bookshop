@@ -1,9 +1,9 @@
 <x-app-layout>
-	here you can add a new book
+	 
 	<div class="container">
 		<div class="row">
 			<div class="col-sm">
-				
+
 			</div>
 			<div class="col-sm">
 				@if ($errors->any())
@@ -38,14 +38,14 @@
 					@endforeach
 					<div class="mb-3">
 
-       					 <div class="input-group">
-						<label for="book_price" class="form-label">Suggested Price:</label>
-						
+						<div class="input-group">
+							<label for="book_price" class="form-label">Suggested Price:</label>
 
-						<input type="text" class="form-control text-right" id="book_price" aria-describedby="author_help" name="book_price">
-						<div class="input-group-pretend ">
-          					<div class="input-group-text">€</div>
-        				</div>
+
+							<input type="text" class="form-control text-right" id="book_price" aria-describedby="author_help" name="book_price">
+							<div class="input-group-pretend ">
+								<div class="input-group-text">€</div>
+							</div>
 						</div>
 					</div>
 
@@ -62,11 +62,11 @@
 				</form>
 			</div>
 			<div class="col-sm">
-				
+
 			</div>
 		</div>
 	</div>
-	
+
 
 
 </x-app-layout>

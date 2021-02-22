@@ -1,7 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
     
-       
+   
     
     
   </x-slot>
@@ -48,22 +48,22 @@
                 <p class="text-muted text-sm m-0 d-inline"><del>€{{$book->price}}</del></p>
                 @endif
               </div>
-              </div>
-            </a>
-          </div>
-          @endforeach
+            </div>
+          </a>
         </div>
-      </div>
-      <div class="d-flex justify-content-center">
-        {{ $books->links() }}
+        @endforeach
       </div>
     </div>
-
-
-    <div class="col-1">
-
+    <div class="d-flex justify-content-center">
+      {{ $books->links() }}
     </div>
   </div>
+
+
+  <div class="col-1">
+
+  </div>
+</div>
 </div>
 </div>
 

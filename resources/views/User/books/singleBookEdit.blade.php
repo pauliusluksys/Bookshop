@@ -25,14 +25,17 @@
 					</div>
 					<div class="mb-3">
 						<label for="book_author" class="form-label">Book author:</label>
-						<input type="text" class="form-control" id="book_author" aria-describedby="author_help" name="book_author" value="{{$book->author_id}}">
+						<input type="text" class="form-control" id="book_author" aria-describedby="author_help" name="book_author" value="@foreach($book->authors as $author)@if ($loop->first){{$author->name}} @else,{{$author->name}} @endif @endforeach">
 						<div id="author_help" class="form-text">If there are more than one author, separate them by comma</div>
 					</div>
 					
 					@foreach($genres as $genre)
 					<div class="mb-3">
 						<div class="form-check">
-							<input class="form-check-input" type="checkbox" value="{{$genre->name}}" name="genres[]"id="">
+							<input class="form-check-input" type="checkbox" value="{{$genre->name}}" name="genres[]"id="" @foreach($book->genres as $bookGenre)
+							@if($bookGenre->name==$genre->name) checked="true"
+							@endif
+							@endforeach>
 							<label class="form-check-label" for="defaultCheck1">{{$genre->name}}
 							</label>
 						</div>
@@ -41,14 +44,14 @@
 
 					<div class="mb-3">
 
-       					 <div class="input-group">
-						<label for="book_price" class="form-label">Suggested Price:</label>
-						
+						<div class="input-group">
+							<label for="book_price" class="form-label">Suggested Price:</label>
+							
 
-						<input type="text" class="form-control text-right" id="book_price" aria-describedby="author_help" name="book_price">
-						<div class="input-group-pretend ">
-          					<div class="input-group-text">€</div>
-        				</div>
+							<input type="text" class="form-control text-right" id="book_price" aria-describedby="author_help" name="book_price" value="{{$book->price}}">
+							<div class="input-group-pretend ">
+								<div class="input-group-text">€</div>
+							</div>
 						</div>
 					</div>
 					

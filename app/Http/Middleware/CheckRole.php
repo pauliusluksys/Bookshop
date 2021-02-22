@@ -21,7 +21,7 @@ class CheckRole
             abort(403);
         }
 
-        if ($role == 'user' && auth()->user()->role != 'regular') {
+        if (($role == 'user' && auth()->user()->role != 'regular') && ($role == 'user' && auth()->user()->role != 'admin')) {
             abort(403);
         }
 

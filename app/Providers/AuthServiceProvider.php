@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::define('update,delete-book', function (User $user, $bookId) {
-        return $user->id === Book::find($bookId)->user_id;
+        return (($user->id === Book::find($bookId)->user_id)||($user->role==='admin'));
         });
 
          Gate::define('update-book', function (User $user, Book $book) {

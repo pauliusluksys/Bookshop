@@ -20,21 +20,15 @@ class DatabaseSeeder extends Seeder
 
 
     	$this->call([
-        GenresSeeder::class]);
+    		UserSeeder::class,
+    		GenreSeeder::class,
+    		AuthorSeeder::class,
+    		BookSeeder::class,
+
+    	]);
 
 
-       DB::table('users')->insert([
-            'name' => "admin",
-            'email' => "admin@gmail.com",
-            'password' => Hash::make('password'),
-            'role' =>'admin',
-        ]);
-       DB::table('users')->insert([
-            'name' => "user",
-            'email' => "user@gmail.com",
-            'password' => Hash::make('password'),
-            'role' =>'regular',
-        ]);
+       
        	//$imageUrl=$faker->imageUrl(640, 480);
 
           // $books =\App\Models\Book::factory()->count(30)->create()->each(function ($book) {
@@ -42,17 +36,7 @@ class DatabaseSeeder extends Seeder
           //   $isConfirmed = \App\Models\Book::factory()->make();
           //   $book->isConfirmed()->save($isConfirmed);
           //   });
-         $genres=\App\Models\Genre::all();
-         $book=\App\Models\Book::factory()->has(\App\Models\Confirmation::factory()->count(1))->hasAttached($genres)->count(51)->create();
-
-         $author=\App\Models\Author::factory()->count(20)->create();
-
-
-         foreach(Book::all() as $book){
-         	$author=\App\Models\Author::inRandomOrder()->take(1)->pluck('id');
-         	$book->authors()->attach($author);
-         	//$book->addMediaFromUrl($url)->toMediaCollection('books');
-         }
+         
 
 
     }

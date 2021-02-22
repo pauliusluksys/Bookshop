@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Confirmation;
 use App\Models\Author;
 use App\Models\Genre;
-use App\Models\BookGenre;
-use App\Models\AuthorBook;
+
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 class UserBooksController extends Controller
@@ -22,9 +21,9 @@ class UserBooksController extends Controller
      */
     public function index()
     {
-        $books=Book::with('authors')->where('user_id', Auth::user()->id)->get();
-        
-        
+        $books=Book::with('authors','confirmation','genres')->where('user_id', Auth::user()->id)->Paginate();
+
+
         return view('user.books.index',compact('books'));
     }
 
@@ -52,55 +51,54 @@ class UserBooksController extends Controller
         'book_title' => 'required|max:191',
         'book_author' => 'required|max:191',
         'book_description' =>'required',
-        'book_author' =>'required|max:191',
         'genres' =>'required',
-        'book_price' => 'regex:/^(\d+(.\d{1,2})?)?$/',
+        'book_price' => 'regex:/^\d+([.,]\d{1,2})?$/',
         'book_image' =>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
-         $author_ids=[];
-         $i=0;
-         foreach(explode(',',$request->book_author) as $book_author){
-                $author = Author::firstOrCreate(['name' => $book_author]);
-                Arr::set($author_ids, $i++, $author->id);
-         }
-         
+         $price=str_replace(',', '.', $request->book_price);
 
-         $genre_ids=[];
-         $l=0;
-         foreach($request->genres as $genre){
-         
-         Arr::set($genre_ids, $l++,Genre::where('name', $genre)->pluck('id')->first());
-         }
-
-        $book = Book::create([
+         $book = Book::create([
             'title' => $request->book_title,
             'description' => $request->book_description,
             'user_id' => Auth::id(),
-            'price' =>$request->book_price,
+            'price' =>$price,
 
         ]);
 
-        
+
+         foreach(explode(',',$request->book_author) as $book_author){
+                $author = Author::firstOrCreate(['name' => $book_author]);
+                //Arr::set($author_ids, $i++, $author->id);
+                $book->authors()->attach($author->id);
+
+         }
+
+
+
+         foreach($request->genres as $genre){
+
+         $genreId=Genre::where('name', $genre)->pluck('id')->first();
+         $book->genres()->attach($genreId);
+         }
+
 
         $book->addMediaFromRequest('book_image')->toMediaCollection('books_images');
 
-        
-        
-        $book->authors()->attach($author_ids);
-        $book->genres()->attach($genre_ids);
+
+
 
         $confirmation = Confirmation::create([
-        
+
         'type'=>'waiting',
         'book_id'=>$book->id,
-        
+
         ]);
 
         $books=Book::all();
         return redirect()->route('user.books.index')->with('success','Book has been created successfully');
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -115,7 +113,7 @@ class UserBooksController extends Controller
         }
         $book=Book::find($id);
         //dd($book->getFirstMediaUrl('books_images'));
-        
+
         return view('user.books.singleBook',compact('book'));
     }
 
@@ -152,32 +150,35 @@ class UserBooksController extends Controller
             'book_author' => 'required|min:5|max:191',
             'book_description' =>'required|min:10',
             'genres' =>'required',
-            'book_price'=>'nullable|regex:/^(\d+(.\d{1,2})?)?$/',
+            'book_price'=>'required|regex:/^\d+([.,]\d{1,2})?$/',
          ]);
-        $author_ids=[];
-         $i=0;
-         foreach(explode(',',$request->book_author) as $book_author){
-                $author = Author::firstOrCreate(['name' => $book_author]);
-                Arr::set($author_ids, $i++, $author->id);
-         }
-         
 
-         $genre_ids=[];
-         $l=0;
-         foreach($request->genres as $genre){
-         
-         Arr::set($genre_ids, $l++,Genre::where('name', $genre)->pluck('id')->first());
-         }
 
         $book = Book::find($id);
-    
-        $book->title = $request->book_title;
-        $book->description = $request->book_description;
-        $book->user_id = Auth::user()->id;
-        $book->price = $request->book_price*100;
-        $book->save();
-        $book->author()->sync($author_ids);
-        $book->genre()->sync($genre_ids);
+            $book->title = $request->book_title;
+            $book->description = $request->book_description;
+            $book->price = $request->book_price;
+            $book->save();
+        ;
+
+
+         foreach(explode(',',$request->book_author) as $book_author){
+                $author = Author::firstOrCreate(['name' => $book_author]);
+                $authorId=$author->id;
+                $book->authors()->sync($authorId);
+         }
+
+
+
+         foreach($request->genres as $genre){
+         $genreId=Genre::where('name',$genre)->first();
+         $book->genres()->sync($genreId->id);
+         }
+
+
+
+
+
 return redirect()->route('user.books.show',['book'=>$book->id])->with('success','Book has been updated successfully');
     }
 

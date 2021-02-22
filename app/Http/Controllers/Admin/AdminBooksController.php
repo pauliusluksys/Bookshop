@@ -15,7 +15,7 @@ class AdminBooksController extends Controller
      */
     public function index()
     {
-        $books=Book::get();
+        $books=Book::with('authors','confirmation','genres','user')->Paginate();
         return view('admin.books.index',compact('books'));
     }
 

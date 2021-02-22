@@ -25,16 +25,16 @@
   height: 430px; max-width:250px;
 }
 .book-new{
-  
+
   position:absolute;
   top:0;
   left:0;
 }
 .book-discount{
-  
+
   position:absolute;
   top:0;
-  right:0; 
+  right:0;
 }
 
 .searchbar{
@@ -88,8 +88,15 @@
     }
 
 
-    
+
 .form-control-borderless {
     border: none;
 }
+
+/* star system */
+/* Rating Star Widgets Style */
+
+
+
+
 
