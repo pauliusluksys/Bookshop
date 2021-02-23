@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/','/books');
 Route::get('/books', [BookController::class, 'index'])->name('home.index');
 Route::get('/books/{id}', [BookController::class, 'show'])->name('home.show');
-Route::get('/search', [SearchBarController::class, 'index'])->name('searchBar.index');
+
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 	return view('dashboard');
 })->name('dashboard');

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
+
 class BookController extends Controller
 {
     /**
@@ -23,10 +24,18 @@ class BookController extends Controller
 
 
         //$authorBooks = Author::find(1)->book()->get();
-        $books=Book::with('authors','media')->confirmed()->simplePaginate();
+        $books = Book::with('authors', 'media')->confirmed()
+            ->when(request('search'), function ($query) {
+                $search = request('search');
+                $query->where('title', 'LIKE', '%' . $search . '%');
+                $query->orWhereHas('authors', function ($query) use ($search) {
+                    $query->where('name', 'LIKE', '%' . $search . '%');
+                });
+
+            })->simplePaginate();
 
 
-        return view('home.index',compact('books'));
+        return view('home.index', compact('books'));
     }
 
 
@@ -34,12 +43,12 @@ class BookController extends Controller
     {
 
 
-        $book=Book::with('ratings','authors','genres')->find($id);
-        $avgRating=$book->ratings->avg('rating');
+        $book = Book::with('ratings', 'authors', 'genres')->find($id);
+        $avgRating = $book->ratings->avg('rating');
         //dd($avgRating);
         //dd($book->getFirstMediaUrl('books_images'));
 
-        return view('home.singleBook',compact('book'));
+        return view('home.singleBook', compact('book'));
 
     }
 

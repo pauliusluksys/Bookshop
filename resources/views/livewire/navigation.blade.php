@@ -36,16 +36,14 @@
 
 
 
-		<form method="GET" action="{{route('searchBar.index')}}" class="">
+		<form method="GET" action="{{route('home.index')}}" class="">
 			<div class="card-body row no-gutters align-items-center">
 				<div class="col-auto">
 					<i class="fas fa-search h4 text-body"></i>
 				</div>
 				<!--end of col-->
 				<div class="col">
-					<input class="form-control form-control-lg form-control-borderless" type="search"  value="@if(null !==request('search'))
-					{{request('search')}}
-					@endif" name="search">
+					<input class="form-control form-control-lg form-control-borderless" type="search"  value="@if(null !==request('search')){{request('search')}}@endif" name="search">
 				</div>
 				<!--end of col-->
 				<div class="col-auto">
