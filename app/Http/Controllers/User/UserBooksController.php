@@ -12,6 +12,7 @@ use App\Models\Genre;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
+
 class UserBooksController extends Controller
 {
     /**
@@ -21,9 +22,9 @@ class UserBooksController extends Controller
      */
     public function index()
     {
-        $books=Book::with('authors','confirmation','genres','media')->where('user_id', Auth::user()->id)->Paginate();
+        $books = Book::with('authors', 'confirmation', 'genres', 'media')->where('user_id', Auth::user()->id)->Paginate();
 
-        return view('user.books.index',compact('books'));
+        return view('user.books.index', compact('books'));
     }
 
     /**
@@ -33,172 +34,166 @@ class UserBooksController extends Controller
      */
     public function create()
     {
-        $genres= Genre::get();
+        $genres = Genre::get();
 
-        return view('user.books.create',compact('genres'));
+        return view('user.books.create', compact('genres'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-         $validated = $request->validate([
-        'book_title' => 'required|min:5|max:191',
-        'book_author' => 'required|min:5|max:191',
-        'book_description' =>'required|min:10',
-        'genres' =>'required',
-        'book_price' => 'regex:/^\d+([.,]\d{1,2})?$/',
-        'book_image' =>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        $validated = $request->validate([
+            'book_title' => 'required|min:5|max:191',
+            'book_author' => 'required|min:5|max:191',
+            'book_description' => 'required|min:10',
+            'genres' => 'required',
+            'book_price' => 'regex:/^\d+([.,]\d{1,2})?$/',
+            'book_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
 
-         $price=str_replace(',', '.', $request->book_price);
+        $price = str_replace(',', '.', $request->book_price);
 
-         $book = Book::create([
+        $book = Book::create([
             'title' => $request->book_title,
             'description' => $request->book_description,
             'user_id' => Auth::id(),
-            'price' =>$price,
+            'price' => $price,
 
         ]);
 
 
-         foreach(explode(',',$request->book_author) as $book_author){
-                $author = Author::firstOrCreate(['name' => $book_author]);
-                //Arr::set($author_ids, $i++, $author->id);
-                $book->authors()->attach($author->id);
+        foreach (explode(',', $request->book_author) as $book_author) {
+            $author = Author::firstOrCreate(['name' => $book_author]);
+            //Arr::set($author_ids, $i++, $author->id);
+            $book->authors()->attach($author->id);
 
-         }
+        }
 
 
+        foreach ($request->genres as $genre) {
 
-         foreach($request->genres as $genre){
-
-         $genreId=Genre::where('name', $genre)->pluck('id')->first();
-         $book->genres()->attach($genreId);
-         }
+            $genreId = Genre::where('name', $genre)->pluck('id')->first();
+            $book->genres()->attach($genreId);
+        }
 
 
         $book->addMediaFromRequest('book_image')->toMediaCollection('books_images');
 
 
-
-
         $confirmation = Confirmation::create([
 
-        'type'=>'waiting',
-        'book_id'=>$book->id,
+            'type' => 'waiting',
+            'book_id' => $book->id,
 
         ]);
 
-        $books=Book::all();
-        return redirect()->route('user.books.index')->with('success','Book has been created successfully');
+        $books = Book::all();
+        return redirect()->route('user.books.index')->with('success', 'Book has been created successfully');
     }
 
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-       if (! Gate::allows('update,delete-book', $id)) {
+        if (!Gate::allows('update,delete-book', $id)) {
             abort(403);
         }
-        $book=Book::find($id);
+        $book = Book::find($id);
         //dd($book->getFirstMediaUrl('books_images'));
 
-        return view('user.books.singleBook',compact('book'));
+        return view('user.books.singleBook', compact('book'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        if (! Gate::allows('update,delete-book', $id)) {
+        if (!Gate::allows('update,delete-book', $id)) {
             abort(403);
         }
-        $book=Book::find($id);
-        $genres=Genre::all();
+        $book = Book::find($id);
+        $genres = Genre::all();
         return view('user.books.singleBookEdit')->with(compact('book'))->with(compact('genres'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        if (! Gate::allows('update,delete-book', $id)) {
+        if (!Gate::allows('update,delete-book', $id)) {
             abort(403);
         }
         $request->validate([
             'book_title' => 'required|min:5|max:191',
             'book_author' => 'required|min:5|max:191',
-            'book_description' =>'required|min:10',
-            'genres' =>'required',
-            'book_price'=>'required|regex:/^\d+([.,]\d{1,2})?$/',
-            'book_image' =>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-         ]);
+            'book_description' => 'required|min:10',
+            'genres' => 'required',
+            'book_price' => 'required|regex:/^\d+([.,]\d{1,2})?$/',
+            'book_image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
 
         $book = Book::find($id);
-            $book->title = $request->book_title;
-            $book->description = $request->book_description;
-            $book->price = $request->book_price;
-            $book->save();
-        ;
+        $book->title = $request->book_title;
+        $book->description = $request->book_description;
+        $book->price = $request->book_price;
+        $book->save();;
 
 
-         foreach(explode(',',$request->book_author) as $book_author){
-                $author = Author::firstOrCreate(['name' => $book_author]);
-                $authorId=$author->id;
-                $book->authors()->sync($authorId);
-         }
+        foreach (explode(',', $request->book_author) as $book_author) {
+            $author = Author::firstOrCreate(['name' => $book_author]);
+            $authorId = $author->id;
+            $book->authors()->sync($authorId);
+        }
 
 
-
-         foreach($request->genres as $genre){
-         $genreId=Genre::where('name',$genre)->first();
-         $book->genres()->sync($genreId->id);
-         }
-         if($request->book_image!=null){
-             $bookMediaItems = $book->getMedia('books_images');
-             $bookMediaItems->each->delete();
-             $book->addMediaFromRequest('book_image')->toMediaCollection('books_images');
-         }
-
+        foreach ($request->genres as $genre) {
+            $genreId = Genre::where('name', $genre)->first();
+            $book->genres()->sync($genreId->id);
+        }
+        if ($request->book_image != null) {
+            $bookMediaItems = $book->getMedia('books_images');
+            $bookMediaItems->each->delete();
+            $book->addMediaFromRequest('book_image')->toMediaCollection('books_images');
+        }
 
 
-return redirect()->route('user.books.show',['book'=>$book->id])->with('success','Book has been updated successfully');
+        return redirect()->route('user.books.show', ['book' => $book->id])->with('success', 'Book has been updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
 
-        if (! Gate::allows('update,delete-book', $id)) {
+        if (!Gate::allows('update,delete-book', $id)) {
             abort(403);
         }
         $book = Book::find($id);
         $book->delete();
-        return redirect()->route('user.books.index')->with('success','Book has been deleted successfully');
+        return redirect()->route('user.books.index')->with('success', 'Book has been deleted successfully');
     }
 }

@@ -12,20 +12,16 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\BookReportNotification;
 class BooksReportController extends Controller
 {
-	public function index($id)
-	{
 
-		return view('user.books.bookReport',compact('id'));
-	}
 
 	public function send($id)
 	{
-		
+
 		$book=Book::find($id);
 		$adminUsers=User::where('role','admin')->get();
 		if($adminUsers!=NULL){
 			Notification::send($adminUsers,new BookReportNotification($book));
-			
+
 			return redirect()->route('home.index')->with('success','Report has been sent');
 
 		}
@@ -33,6 +29,6 @@ class BooksReportController extends Controller
 			return redirect()->route('home.index')->with('error','Something went wrong!');
 
 		}
-		
+
 	}
 }

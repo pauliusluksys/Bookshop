@@ -27,20 +27,20 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::group(['middleware' => 'auth'], function(){
 
 	Route::get('redirects', 'App\Http\Controllers\HomeController@index');
-	
+
 	Route::group(['middleware' =>'role:admin','prefix'=>'admin','as'=>'admin.'],function(){
 	//Route::resource('',\App\Http\Controllers\Admin\AdminHomeController::class);
 
 		Route::resource('users',Admin\AdminManageUsersController::class);
 		Route::resource('books',Admin\AdminBooksController::class);
-		Route::get('', [Admin\AdminHomeController::class, 'index'])->name('home.index');
+		Route::redirect('','/books');
 		Route::post('books/{id}/status', [Admin\AdminBooksStatusController::class, 'update'])->name('BooksStatus.update');
 
 	});
 	Route::group(['middleware'=>'role:user','prefix'=>'user','as'=>'user.'],function(){
 
 		Route::resource('books',User\UserBooksController::class);
-		Route::get('books/{id}/report',[User\BooksReportController::class, 'index'])->name('BooksReport.index');
+
 		Route::post('books/{id}/report',[User\BooksReportController::class, 'send'])->name('BooksReport.send');
 
 	});

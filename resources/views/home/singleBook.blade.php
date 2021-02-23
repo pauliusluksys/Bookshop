@@ -80,7 +80,11 @@
           <div class="py-6">
            <p><strong>Description:</strong> {{$book->description}}</p>
          </div>
-         @auth<div><a href="/user/books/{{$book->id}}/report">Report this book</a></div>@endauth
+         @auth<div><form action="{{route('user.BooksReport.send',$book->id)}}" method="POST">
+                @csrf
+                <button type="submit">Report this book</button>
+               </form>
+           </div>@endauth
        </div>
      </div>
      @livewire('book-ratings', ['book' => $book], key($book->id))

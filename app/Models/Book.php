@@ -11,11 +11,11 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Database\Eloquent\Scope;
+
 class Book extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
-
 
 
     protected $fillable = [
@@ -26,20 +26,23 @@ class Book extends Model implements HasMedia
         'user_id',
 
     ];
-    protected $perPage= 25;
+    protected $perPage = 25;
 
     public function confirmation()
     {
         return $this->hasOne(Confirmation::class);
     }
+
     public function user()
     {
-         return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class);
     }
-     public function authors()
+
+    public function authors()
     {
         return $this->belongsToMany(Author::class, 'author_book');
     }
+
     public function genres()
     {
         return $this->belongsToMany(Genre::class, 'book_genre');
@@ -55,10 +58,10 @@ class Book extends Model implements HasMedia
         return $this->hasMany('App\Models\BookReport');
     }
 
-      public function scopeConfirmed($query)
+    public function scopeConfirmed($query)
     {
-        return $query->whereHas('confirmation', function($q){
-        $q->where('type', '=', 'Accepted');
+        return $query->whereHas('confirmation', function ($q) {
+            $q->where('type', '=', 'Accepted');
         });
     }
 

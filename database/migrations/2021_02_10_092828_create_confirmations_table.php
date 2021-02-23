@@ -18,7 +18,7 @@ class CreateConfirmationsTable extends Migration
             $table->string('message')->nullable();
             $table->string('type')->default('waiting');
             $table->timestamps();
-            $table->foreignId("book_id")->constrained();
+            $table->foreignId("book_id")->constrained()->onDelete('cascade');
         });
     }
 

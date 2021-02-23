@@ -20,15 +20,16 @@ class BookSeeder extends Seeder
     {
 
 
-
+        $allGenres=Genre::all();
+        $allAuthors=Author::all();
         Book::factory()->has(Confirmation::factory()->count(1))->count(26)->create()->each(
-            function($book){
+           function($book) use($allGenres,$allAuthors){
                 $faker = Faker::create();
                 $imageUrl = $faker->imageUrl(2240, 3968, false);
 
 
-                $genres=Genre::all()->random(rand(1,2));
-                $authors=Author::all()->random(rand(1,3));
+                $genres=$allGenres->random(rand(1,2));
+                $authors=$allAuthors->random(rand(1,3));
                 $book->authors()->attach($authors);
                 $book->genres()->attach($genres);
                 $book->addMediaFromUrl($imageUrl)->toMediaCollection('books_images');

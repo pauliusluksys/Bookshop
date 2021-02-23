@@ -12,6 +12,16 @@
 
       </div>
       <div class="col-10 d-inline">
+          @if (session('success'))
+              <div class="alert alert-success">
+                  {{ session('success') }}
+              </div>
+
+          @elseif(session('error'))
+                  <div class="alert alert-error">
+                      {{ session('error') }}
+                  </div>
+          @endif
         <div class="d-flex justify-content-center">
          <div class="box">
           @foreach($books as $book)
