@@ -99,6 +99,7 @@
 
             </div>
             <div class="col-8">
+
                 <livewire:ratings :book="$book"/>
             </div>
             <div class="col-2">
@@ -108,3 +109,6 @@
 </div>
 
     </x-app-layout>
+
+
+

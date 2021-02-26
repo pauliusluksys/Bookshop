@@ -12,7 +12,7 @@ class Rating extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'comment'
+        'rating'
     ];
 
     public function user()
