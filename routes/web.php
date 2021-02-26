@@ -2,6 +2,9 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Resources\BookResource;
+use App\Http\Resources\BookCollection;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,9 +15,15 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/api/v1/books',[Api\v1\BookController::class, 'index']);
+
+Route::get('/api/v1/books/{book}',[Api\v1\BookController::class, 'show']);
+
+
 
 Route::redirect('/','/books');
 Route::get('/books', [BookController::class, 'index'])->name('home.index');
+
 Route::get('/books/{id}', [BookController::class, 'show'])->name('home.show');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

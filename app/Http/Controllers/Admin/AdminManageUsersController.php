@@ -79,14 +79,14 @@ class AdminManageUsersController extends Controller
             'user_name'=>'required',
             'user_email'=>'required',
             'user_password'=>'required',
-            
+
         ]);
         $user = User::find($id);
         $user->name=$request->user_name;
         $user->email=$request->user_email;
         $user->password=Hash::make($request->user_password);
         $user->save();
-        return redirect()->route('admin.users.show',['user'=>$user->id])->with('success','User has been updated successfully');
+        return redirect()->route('admin.users.show',['user'=>$user->id])->with('success','user has been updated successfully');
     }
 
     /**
@@ -99,6 +99,6 @@ class AdminManageUsersController extends Controller
     {
         $user = User::find($id);
         $user->delete();
-        return redirect()->route('admin.users.index')->with('success','User has been deleted successfully');
+        return redirect()->route('admin.users.index')->with('success','user has been deleted successfully');
     }
 }

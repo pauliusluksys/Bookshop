@@ -87,13 +87,24 @@
            </div>@endauth
        </div>
      </div>
-     @livewire('book-ratings', ['book' => $book], key($book->id))
+
    </div>
 
    <div class="col-2">
 
    </div>
  </div>
+        <div class="row  py-12">
+            <div class="col-2">
+
+            </div>
+            <div class="col-8">
+                <livewire:ratings :book="$book"/>
+            </div>
+            <div class="col-2">
+
+            </div>
+        </div>
 </div>
 
     </x-app-layout>

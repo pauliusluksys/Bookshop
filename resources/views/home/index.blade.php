@@ -66,7 +66,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-center">
-      {{ $books->links() }}
+      @if($books!==[]){{ $books->links() }}@endif
     </div>
   </div>
 
